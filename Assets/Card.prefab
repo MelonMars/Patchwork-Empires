@@ -126,4 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   initialScale: {x: 0, y: 0, z: 0}
   scaleFactor: {x: 1.05, y: 1, z: 1.05}
+  boardMask:
+    serializedVersion: 2
+    m_Bits: 64
   board: {fileID: 0}

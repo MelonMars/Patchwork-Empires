@@ -3,42 +3,87 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 
-public class CardController : MonoBehaviour {
+public class CardController : MonoBehaviour
+{
     Camera cam;
     bool dragging;
     public Vector3 initialScale;
     public Vector3 scaleFactor = new Vector3(1.05f, 0, 1.05f);
-    public GameObject board;
+    public LayerMask boardMask;
+    Vector3 originalPosition;
 
-    void Start() {
+    bool placed;
+    bool isInHand = true;
+    BoardGrid board;
+    HandManager manager;
+
+
+    void Start()
+    {
         initialScale = transform.localScale;
         cam = Camera.main;
+        board = FindObjectOfType<BoardGrid>();
+        manager = GetComponentInParent<HandManager>();
     }
 
-    void OnMouseEnter() {
-        transform.localScale = Vector3.Scale(scaleFactor, initialScale);
+    void OnMouseEnter()
+    {
+        if (isInHand && !placed)
+            transform.localScale = Vector3.Scale(scaleFactor, initialScale);
     }
 
-    void OnMouseExit() {
-        if (!dragging) {
+    void OnMouseExit()
+    {
+        if (!dragging)
+        {
             transform.localScale = initialScale;
         }
     }
 
-    void OnMouseDown() {
+    void OnMouseDown()
+    {
+        if (placed) return;
+        originalPosition = transform.position;
         dragging = true;
     }
 
-    void OnMouseUp() {
+    void OnMouseUp()
+    {
+        if (!dragging) return;
         dragging = false;
+
+        Vector2 curr = new Vector2(transform.position.x, transform.position.z);
+        Vector2 orig = new Vector2(originalPosition.x, originalPosition.z);
+
+        Debug.Log(Vector2.Distance(curr, orig));
+        if (Vector2.Distance(curr, orig) < 3f)
+        {
+            manager.ReturnCard(transform);
+            transform.localScale = initialScale;
+            return;
+        }
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit, 1000f, boardMask))
+        {
+            transform.position = board.SnapToGrid(hit.point);
+            transform.rotation = Quaternion.identity;
+            manager.PlaceCard(transform);
+            isInHand = false;
+            return;
+        }
+        manager.ReturnCard(transform);
+        transform.localScale = initialScale;
     }
 
-    void Update() {
+    void Update()
+    {
         if (!dragging) return;
 
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit)) {
-            transform.position = hit.point + Vector3.up * 0.02f;
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            Vector3 snapped = board.SnapToGrid(hit.point);
+            transform.position = snapped + Vector3.up * 0.02f;
         }
     }
 }
