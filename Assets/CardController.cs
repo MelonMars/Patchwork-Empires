@@ -45,12 +45,14 @@ public class CardController : MonoBehaviour
         if (placed) return;
         originalPosition = transform.position;
         dragging = true;
+        board.ShowHighlights();
     }
 
     void OnMouseUp()
     {
         if (!dragging) return;
         dragging = false;
+        board.HideHighlights();
 
         Vector2 curr = new Vector2(transform.position.x, transform.position.z);
         Vector2 orig = new Vector2(originalPosition.x, originalPosition.z);
@@ -68,6 +70,9 @@ public class CardController : MonoBehaviour
             transform.position = board.SnapToGrid(hit.point);
             transform.rotation = Quaternion.identity;
             manager.PlaceCard(transform);
+            board.PlaceCardAt(transform.position);
+            placed = true;
+            transform.SetParent(null);
             isInHand = false;
             return;
         }

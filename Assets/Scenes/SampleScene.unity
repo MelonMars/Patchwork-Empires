@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
   - component: {fileID: 330585548}
+  - component: {fileID: 330585549}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -274,6 +275,22 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_MaxRayIntersections: 3
+--- !u!114 &330585549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5b2aff9639fa4f6a8fc739513c49b65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  panSpeed: 20
+  dragSpeed: 0.02
+  minBounds: {x: -100, y: -100}
+  maxBounds: {x: 100, y: 100}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -559,6 +576,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   cardPrefab: {fileID: 6747542460539141389, guid: cbc45ac8a6eae4e60a489787682751f6, type: 3}
+  deck:
+  - prefab: {fileID: 7216546869977393493, guid: 067405bea2a6b40aaae528198014f806, type: 3}
+    count: 10
+  - prefab: {fileID: 2110470232132919604, guid: d5912a25443dd42e1a3157d97c61b99c, type: 3}
+    count: 10
+  - prefab: {fileID: 2321284625890316592, guid: 3a532cbf2f10741f69f10acb07d91416, type: 3}
+    count: 10
+  - prefab: {fileID: 6706945899170162141, guid: a034624e61c394e36903b5016cb4d981, type: 3}
+    count: 10
 --- !u!4 &979733791
 Transform:
   m_ObjectHideFlags: 0
@@ -568,7 +594,7 @@ Transform:
   m_GameObject: {fileID: 979733789}
   serializedVersion: 2
   m_LocalRotation: {x: 0.22651365, y: -0, z: -0, w: 0.974008}
-  m_LocalPosition: {x: 0, y: -0.86, z: 2.08}
+  m_LocalPosition: {x: 1.34, y: -0.86, z: 2.08}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -587,7 +613,7 @@ GameObject:
   - component: {fileID: 1333763078}
   - component: {fileID: 1333763077}
   - component: {fileID: 1333763081}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BoardBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -701,6 +727,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   cellSize: 1
   gridSize: {x: 50, y: 50}
+  highlightPrefab: {fileID: 6414916392300589378, guid: 7b95d14b07af44a318068cd9e9928647, type: 3}
 --- !u!1001 &8503937128519988208
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -716,6 +743,10 @@ PrefabInstance:
     - target: {fileID: 7418933446814135907, guid: d7912316b6c834da0b6cbdc239648802, type: 3}
       propertyPath: m_Name
       value: BoardBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 7418933446814135907, guid: d7912316b6c834da0b6cbdc239648802, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8332394910912569201, guid: d7912316b6c834da0b6cbdc239648802, type: 3}
       propertyPath: m_LocalScale.x
